@@ -1,4 +1,5 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
+import { STORAGE_KEYS, parseComponents, readStorage, writeStorage } from '../utils/storage';
 import type { GeneratedComponent, Provider } from '../types';
 
 interface UseComponentGeneratorReturn {
@@ -11,9 +12,15 @@ interface UseComponentGeneratorReturn {
 }
 
 export function useComponentGenerator(): UseComponentGeneratorReturn {
-  const [components, setComponents] = useState<GeneratedComponent[]>([]);
+  const [components, setComponents] = useState<GeneratedComponent[]>(() =>
+    readStorage(STORAGE_KEYS.components, parseComponents, []),
+  );
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    writeStorage(STORAGE_KEYS.components, components);
+  }, [components]);
 
   const generate = useCallback(async (prompt: string, apiKey: string | undefined, provider: Provider) => {
     setIsLoading(true);

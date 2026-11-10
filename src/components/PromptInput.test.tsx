@@ -50,4 +50,20 @@ describe('PromptInput', () => {
     fireEvent.keyDown(textbox, { key: 'Enter', ctrlKey: true });
     expect(onGenerate).not.toHaveBeenCalled();
   });
+
+  it('히스토리 항목을 누르면 입력창에 채워진다', async () => {
+    const user = userEvent.setup();
+    render(<PromptInput onGenerate={vi.fn()} isLoading={false} history={['지난 프롬프트']} />);
+    await user.click(screen.getByRole('button', { name: '지난 프롬프트' }));
+    expect(screen.getByRole('textbox')).toHaveValue('지난 프롬프트');
+  });
+
+  it('생성 요청 시 프롬프트가 히스토리 콜백으로 전달된다', async () => {
+    const onHistoryAdd = vi.fn();
+    const user = userEvent.setup();
+    render(<PromptInput onGenerate={vi.fn()} isLoading={false} onHistoryAdd={onHistoryAdd} />);
+    await user.type(screen.getByRole('textbox'), '카드');
+    await user.click(screen.getByRole('button', { name: '컴포넌트 생성' }));
+    expect(onHistoryAdd).toHaveBeenCalledWith('카드');
+  });
 });

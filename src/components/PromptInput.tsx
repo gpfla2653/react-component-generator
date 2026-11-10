@@ -4,6 +4,8 @@ import { validatePrompt, MAX_PROMPT_LENGTH } from '../utils/validatePrompt';
 interface PromptInputProps {
   onGenerate: (prompt: string) => void;
   isLoading: boolean;
+  history?: string[];
+  onHistoryAdd?: (prompt: string) => void;
 }
 
 const EXAMPLES = [
@@ -15,13 +17,14 @@ const EXAMPLES = [
   '테이블 행 상세보기 패널. 선택한 고객의 기본 정보와 최근 활동 표시',
 ];
 
-export function PromptInput({ onGenerate, isLoading }: PromptInputProps) {
+export function PromptInput({ onGenerate, isLoading, history = [], onHistoryAdd }: PromptInputProps) {
   const [prompt, setPrompt] = useState('');
   const validation = validatePrompt(prompt);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (prompt.trim() && validation.valid && !isLoading) {
+      onHistoryAdd?.(prompt.trim());
       onGenerate(prompt.trim());
     }
   };
@@ -83,6 +86,21 @@ export function PromptInput({ onGenerate, isLoading }: PromptInputProps) {
           </button>
         ))}
       </div>
+      {history.length > 0 && (
+        <div className="prompt-examples">
+          <span className="examples-label">최근 프롬프트</span>
+          {history.map((item) => (
+            <button
+              key={item}
+              className="example-chip"
+              onClick={() => handleExampleClick(item)}
+              type="button"
+            >
+              {item}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
