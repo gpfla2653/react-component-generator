@@ -1,0 +1,43 @@
+@import url('https://cdn.jsdelivr.net/npm/galmuri@latest/dist/galmuri.css');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  color-scheme: light;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: none;
+  --desk: #138a8f;
+  --desk-dot: #0f7a7f;
+  --ink: #16142b;
+}
+
+body {
+  font-family: Galmuri11, Galmuri9, 'Malgun Gothic', 'Apple SD Gothic Neo', system-ui, sans-serif;
+  background-color: var(--desk);
+  background-image: radial-gradient(var(--desk-dot) 1.2px, transparent 1.4px);
+  background-size: 6px 6px;
+  color: var(--ink);
+  min-height: 100vh;
+  line-height: 1.5;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+::selection {
+  background: #1b2a8a;
+  color: #ffffff;
+}
