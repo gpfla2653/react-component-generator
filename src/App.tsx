@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { PromptInput } from './components/PromptInput';
+import { StreamingCard } from './components/StreamingCard';
 import { ComponentCard } from './components/ComponentCard';
 import { useComponentGenerator } from './hooks/useComponentGenerator';
 import type { Provider } from './types';
@@ -35,7 +36,7 @@ function App() {
     anthropic: false,
     google: false,
   });
-  const { components, isLoading, error, generate, removeComponent, clearAll } =
+  const { components, isLoading, streamingCode, error, generate, removeComponent, clearAll } =
     useComponentGenerator();
 
   useEffect(() => {
@@ -185,19 +186,7 @@ function App() {
           </div>
         )}
 
-        {isLoading && (
-          <div className="window loading-card" role="status">
-            <div className="titlebar">
-              <span className="titlebar-title">생성 중</span>
-            </div>
-            <div className="window-body">
-              <p>컴포넌트를 생성하고 있습니다...</p>
-              <div className="progress" aria-hidden="true">
-                <div className="progress-fill" />
-              </div>
-            </div>
-          </div>
-        )}
+        {isLoading && <StreamingCard code={streamingCode} />}
 
         <div className="results-grid">
           {components.map((component) => (
