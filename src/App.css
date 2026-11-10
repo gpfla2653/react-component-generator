@@ -332,6 +332,31 @@ a:focus-visible {
   line-height: 1.7;
 }
 
+.prompt-meta {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+}
+
+.prompt-error {
+  margin-right: auto;
+  color: var(--coral);
+  font-weight: 700;
+}
+
+.prompt-counter {
+  color: var(--muted);
+}
+
+.prompt-counter.over {
+  color: var(--coral);
+  font-weight: 700;
+}
+
 .prompt-examples {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
